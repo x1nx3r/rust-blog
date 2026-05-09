@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Rust + Tailwind Blog{% endblock %}</title>
+    <script src="https://unpkg.com/htmx.org@2.0.2"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="/assets/output.css" rel="stylesheet">
+</head>
+<body class="bg-bg text-slate-100 antialiased selection:bg-primary selection:text-white">
+    <div class="max-w-5xl mx-auto px-6 lg:px-8">
+        <header class="flex justify-between items-center py-10 border-b border-white/10 mb-12">
+            <a href="/" class="text-2xl font-bold tracking-tight text-primary hover:opacity-80 transition-opacity">RustEngine</a>
+            <nav class="flex space-x-8">
+                <a href="/" class="text-sm font-semibold leading-6 text-slate-400 hover:text-white transition-colors">Home</a>
+                <a href="/about" class="text-sm font-semibold leading-6 text-slate-400 hover:text-white transition-colors">About</a>
+            </nav>
+        </header>
+
+        <main>
+            {% block content %}{% endblock %}
+        </main>
+
+        <footer class="mt-24 text-center border-t border-white/10 py-12 text-sm text-slate-500">
+            &copy; 2024 Rust + Tailwind + HTMX. Engineered for performance.
+        </footer>
+    </div>
+</body>
+</html>

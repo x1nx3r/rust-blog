@@ -1,0 +1,12 @@
+<div id="dynamic-content" class="animate-in fade-in zoom-in duration-500 bg-primary/10 p-8 rounded-2xl border border-primary/20 shadow-xl shadow-primary/5">
+    <h3 class="text-2xl font-bold text-primary mb-2">Instant Interaction</h3>
+    <p class="text-slate-400">This content was swapped via HTMX. Notice the zero-latency feel and smooth animation.</p>
+    <button 
+        class="mt-6 text-sm font-semibold text-slate-400 hover:text-white transition-colors underline decoration-slate-600 underline-offset-4" 
+        hx-get="/reset" 
+        hx-target="#dynamic-content" 
+        hx-swap="outerHTML"
+    >
+        Reset Experience
+    </button>
+</div>

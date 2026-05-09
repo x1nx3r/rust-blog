@@ -1,0 +1,26 @@
+[package]
+name = "rust-blog"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+askama = "0.16.0"
+axum = "0.8.9"
+serde = { version = "1.0.228", features = ["derive"] }
+serde_json = "1.0.149"
+tokio = { version = "1.52.3", features = ["full"] }
+tower = { version = "0.5.3", features = ["full"] }
+tower-http = { version = "0.6.10", features = ["full"] }
+vercel_runtime = { version = "2.2.0", features = ["axum"] }
+
+[lib]
+name = "rust_blog"
+path = "src/lib.rs"
+
+[[bin]]
+name = "index"
+path = "api/index.rs"
+
+[[bin]]
+name = "rust-blog"
+path = "src/main.rs"
