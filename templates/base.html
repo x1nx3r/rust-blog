@@ -4,13 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Mega Nugraha - Developer & Problem Creator{% endblock %}</title>
+    <meta name="description" content="{% block description %}A journal by Mega Nugraha about backend engineering, cloud infrastructure, and solving imaginary problems.{% endblock %}">
     <!-- Icons -->
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png"/>
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png"/>
     <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png"/>
     <link rel="manifest" href="/assets/site.webmanifest"/>
     <!-- Styles & Fonts -->
-    <link rel="stylesheet" href="/assets/fonts/google-fonts.css"/>
+    <link rel="preload" href="/assets/fonts/google-fonts.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/assets/fonts/google-fonts.css"></noscript>
     <link rel="stylesheet" href="/assets/css/newspaper.css"/>
     <link rel="stylesheet" href="/assets/output.css"/>
 </head>
