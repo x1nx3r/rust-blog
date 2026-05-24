@@ -171,9 +171,30 @@ pub async fn about(axum::extract::State(state): axum::extract::State<AppState>) 
     }
 }
 
+pub async fn sitemap(axum::extract::State(state): axum::extract::State<AppState>) -> impl IntoResponse {
+    let mut sitemap = String::from("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n");
+    let base_url = "https://x1nx3r.dev";
+
+    sitemap.push_str(&format!("  <url>\n    <loc>{}/</loc>\n  </url>\n", base_url));
+    sitemap.push_str(&format!("  <url>\n    <loc>{}/about</loc>\n  </url>\n", base_url));
+
+    for post in state.posts.iter() {
+        if post.slug == "about" { continue; }
+        sitemap.push_str(&format!("  <url>\n    <loc>{}/post/{}</loc>\n  </url>\n", base_url, post.slug));
+    }
+
+    sitemap.push_str("</urlset>");
+    ([(header::CONTENT_TYPE, "application/xml")], sitemap).into_response()
+}
+
 pub async fn debug_slugs(axum::extract::State(state): axum::extract::State<AppState>) -> impl IntoResponse {
     let slugs: Vec<String> = state.posts.iter().map(|p| p.slug.clone()).collect();
     axum::response::Json(slugs)
+}
+
+pub async fn robots_txt() -> impl IntoResponse {
+    let content = "User-agent: *\nAllow: /\n\nSitemap: https://x1nx3r.dev/sitemap.xml\n";
+    ([(header::CONTENT_TYPE, "text/plain")], content).into_response()
 }
 
 use axum::http::header;
@@ -208,7 +229,9 @@ pub fn app() -> Router {
         .route("/assets/{*file}", get(static_handler))
         .route("/static/{*file}", get(static_handler))
         .route("/", get(index))
+        .route("/robots.txt", get(robots_txt))
         .route("/about", get(about))
+        .route("/sitemap.xml", get(sitemap))
         .route("/debug-slugs", get(debug_slugs))
         .route("/post/{slug}", get(post_detail))
         .route("/api/wire-posts", get(wire_posts))

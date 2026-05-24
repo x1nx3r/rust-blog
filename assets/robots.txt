@@ -1,6 +1,9 @@
 User-agent: *
 Allow: /
 
+Sitemap: https://x1nx3r.dev/sitemap.xml
+Allow: /
+
 # Allow all search engines to crawl the site
 Disallow: /api/
 Disallow: /_next/

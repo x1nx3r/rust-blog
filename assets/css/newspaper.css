@@ -167,6 +167,17 @@ body{
  font-size:clamp(0.675rem, 1.2vw, 0.875rem);
 }
 
+/* Monochrome Syntax Highlighting (Syntect) */
+.source { background-color: rgba(0, 0, 0, 0.03); padding: 1rem; border-radius: 4px; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+.keyword { font-weight: bold; }
+.string { font-style: italic; color: #444; }
+.comment { font-style: italic; color: #666; }
+.constant { font-weight: bold; }
+.entity { font-weight: bold; text-decoration: underline; text-decoration-style: dotted; }
+.variable { font-style: italic; }
+.storage { font-weight: bold; }
+.support { font-weight: bold; }
+
 
 .markdown-body h5{
  font-size:clamp(0.575rem, 1vw, 0.675rem);
