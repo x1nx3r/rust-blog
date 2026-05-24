@@ -14,7 +14,7 @@
             <span class="newspaper-smallcaps">Special Feature</span>
             <div class="newspaper-folio-sides">
                 <span class="newspaper-smallcaps">Vol. II</span>
-                <span class="newspaper-smallcaps">Filed {{ post.metadata.date }}</span>
+                <span class="newspaper-smallcaps">Filed {{ post.metadata.formatted_date }}</span>
             </div>
         </div>
 
@@ -72,7 +72,7 @@
                         </a>
                         <div class="flex-1"></div>
                         <time class="flex items-center text-[1rem] uppercase tracking-[0.35em] text-gray-600 newspaper-smallcaps mb-2">
-                            {{ post.metadata.date }}
+                            {{ post.metadata.formatted_date }}
                         </time>
                         <span class="newspaper-section-label">Feature Report</span>
                     </div>

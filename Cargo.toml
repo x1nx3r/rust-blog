@@ -6,6 +6,7 @@ edition = "2024"
 [dependencies]
 askama = "0.16.0"
 axum = "0.8.9"
+chrono = "0.4.44"
 mime_guess = "2.0.5"
 pulldown-cmark = "0.12"
 rust-embed = "8.11.0"
