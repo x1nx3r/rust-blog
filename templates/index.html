@@ -103,9 +103,6 @@
                     <div class="markdown-body columns-1 md:columns-2 gap-8 text-justify leading-relaxed newspaper-text newspaper-vintage-text newspaper-columns text-sm md:text-base newspaper-tight">
                         {{ post.content|safe }}
                     </div>
-                    <a href="/post/{{ post.slug }}" class="inline-block mt-4 text-xs uppercase tracking-[0.3em] text-gray-700 newspaper-ink-underline hover:text-black transition-colors">
-                        Continue reading the full dispatch →
-                    </a>
                 </article>
                 {% else %}
                 <article class="pr-0 lg:pr-8 newspaper-slight-tilt newspaper-ink-specks" style="border-right: 1px solid rgba(107, 107, 107, 0.3)">
@@ -124,59 +121,7 @@
                 </article>
                 {% endif %}
 
-                <!-- Secondary feature (post 4) -->
-                {% if posts.len() > 4 %}
-                {% let post = posts[4] %}
-                <article class="newspaper-ink-specks newspaper-text">
-                    <div class="newspaper-separator mb-5"></div>
-                    <span class="newspaper-section-label">Second Lead</span>
-                    <time class="block text-[0.65rem] uppercase tracking-[0.3em] text-gray-600 newspaper-smallcaps">
-                        {{ post.metadata.formatted_date }}
-                    </time>
-                    <a href="/post/{{ post.slug }}" class="block group mt-3">
-                        <h2 class="text-3xl font-bold text-black leading-snug newspaper-headline newspaper-vintage-text group-hover:underline">
-                            {{ post.metadata.title }}
-                        </h2>
-                    </a>
-                    <p class="markdown-body text-sm sm:text-base text-gray-700 newspaper-tight leading-relaxed mt-3">
-                        {{ post.metadata.summary }}
-                    </p>
-                    <a href="/post/{{ post.slug }}" class="inline-block mt-4 text-xs uppercase tracking-[0.3em] text-gray-700 newspaper-ink-underline hover:text-black transition-colors">
-                        Read the full report →
-                    </a>
-                </article>
-                {% endif %}
 
-                <!-- Spotlight grid (posts 5-7) -->
-                {% if posts.len() > 5 %}
-                <section class="newspaper-ink-specks newspaper-text">
-                    <div class="newspaper-separator mb-5"></div>
-                    <span class="newspaper-section-label">Front Page Spotlights</span>
-                    <div class="grid gap-6 md:grid-cols-2">
-                        {% for i in 5..posts.len() %}
-                        {% if i < 8 %}
-                        {% let post = posts[i] %}
-                        <article class="newspaper-spotlight-card newspaper-ink-specks newspaper-text">
-                            <time class="block text-[0.6rem] uppercase tracking-[0.3em] text-gray-500 newspaper-smallcaps">
-                                {{ post.metadata.formatted_date }}
-                            </time>
-                            <a href="/post/{{ post.slug }}" class="block group">
-                                <h2 class="text-xl font-semibold text-black mt-2 newspaper-headline group-hover:underline">
-                                    {{ post.metadata.title }}
-                                </h2>
-                            </a>
-                            <p class="markdown-body text-sm text-gray-700 newspaper-tight mt-2">
-                                {{ post.metadata.summary }}
-                            </p>
-                            <a href="/post/{{ post.slug }}" class="inline-block mt-3 text-[0.65rem] uppercase tracking-[0.3em] text-gray-700 newspaper-ink-underline hover:text-black transition-colors">
-                                View article →
-                            </a>
-                        </article>
-                        {% endif %}
-                        {% endfor %}
-                    </div>
-                </section>
-                {% endif %}
             </main>
 
             <!-- Sidebar with wire posts -->
@@ -266,41 +211,41 @@
                         Ready to tackle your next project. Contact through <span class="newspaper-ink-underline">GitHub</span> or direct mail above.
                     </p>
                 </div>
+
+                <!-- Highlight cards (posts 4-9) -->
+                {% if posts.len() > 4 %}
+                <div class="newspaper-ink-specks newspaper-text">
+                    <div class="newspaper-separator mb-4"></div>
+                    <span class="newspaper-section-label">Also In This Edition</span>
+                    <div class="flex flex-col gap-6 mt-4">
+                        {% for i in 4..posts.len() %}
+                        {% if i < 10 %}
+                        {% let post = posts[i] %}
+                        <article class="space-y-2 newspaper-text newspaper-vintage-text border-b border-dashed border-gray-300 pb-4 last:border-none last:pb-0">
+                            <time class="block text-[0.6rem] uppercase tracking-[0.3em] text-gray-600 newspaper-smallcaps mb-2">
+                                {{ post.metadata.formatted_date }}
+                            </time>
+                            <a href="/post/{{ post.slug }}" class="group block">
+                                <h2 class="text-lg font-semibold text-black newspaper-headline newspaper-vintage-text newspaper-text leading-snug group-hover:underline">
+                                    {{ post.metadata.title }}
+                                </h2>
+                            </a>
+                            <p class="text-xs sm:text-sm text-gray-700 newspaper-tight newspaper-text line-clamp-3">
+                                {{ post.metadata.summary }}
+                            </p>
+                            <a href="/post/{{ post.slug }}" class="inline-block mt-2 text-[0.6rem] uppercase tracking-[0.3em] text-gray-700 newspaper-ink-underline hover:text-black transition-colors">
+                                Read article →
+                            </a>
+                        </article>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
             </aside>
         </div>
 
-        <!-- Highlight cards (posts 8-10) -->
-        {% if posts.len() > 8 %}
-        <section class="newspaper-ink-specks">
-            <div class="newspaper-separator mb-6"></div>
-            <span class="newspaper-section-label">Also In This Edition</span>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-4">
-                {% for i in 8..posts.len() %}
-                {% if i < 11 %}
-                {% let post = posts[i] %}
-                <article class="newspaper-slight-tilt newspaper-text">
-                    <span class="block text-[0.6rem] uppercase tracking-[0.3em] text-gray-500 newspaper-smallcaps mb-2">
-                        Spotlight
-                    </span>
-                    <time class="block text-[0.65rem] uppercase tracking-[0.3em] text-gray-600 newspaper-smallcaps mb-2">
-                        {{ post.metadata.formatted_date }}
-                    </time>
-                    <a href="/post/{{ post.slug }}" class="block">
-                        <h2 class="text-2xl font-bold text-black pb-2 mb-3 newspaper-headline newspaper-vintage-text hover:underline">
-                            {{ post.metadata.title }}
-                        </h2>
-                    </a>
-                    <div class="newspaper-thin-separator mb-3"></div>
-                    <p class="markdown-body text-sm text-gray-700 newspaper-tight">{{ post.metadata.summary }}</p>
-                    <a href="/post/{{ post.slug }}" class="inline-block mt-3 text-xs uppercase tracking-[0.3em] text-gray-700 newspaper-ink-underline hover:text-black transition-colors">
-                        Read the full story →
-                    </a>
-                </article>
-                {% endif %}
-                {% endfor %}
-            </div>
-        </section>
-        {% endif %}
+
 
         <footer class="text-center pt-4 text-xs text-gray-600 newspaper-faded newspaper-ink-specks">
             <div class="newspaper-thin-separator mb-4"></div>
