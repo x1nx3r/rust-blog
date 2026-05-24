@@ -170,31 +170,7 @@
                     </section>
                 </aside>
 
-                <div class="newspaper-ink-specks newspaper-text">
-                    <div class="newspaper-separator mb-4"></div>
-                    <span class="newspaper-section-label">News Wire</span>
-                    <div id="wire-list" hx-get="/api/wire-posts" hx-trigger="every 30s" hx-swap="outerHTML">
-                        {% if posts.len() > 11 %}
-                        <ul class="space-y-3 text-sm text-gray-700 newspaper-tight newspaper-text">
-                            {% for i in 11..posts.len() %}
-                            {% let post = posts[i] %}
-                            <li class="border-b border-dashed border-gray-300 pb-2 last:border-none last:pb-0">
-                                <a href="/post/{{ post.slug }}" class="flex flex-col gap-1 hover:text-black transition-colors">
-                                    <span class="text-xs uppercase tracking-[0.3em] text-gray-500 newspaper-smallcaps">
-                                        {{ post.metadata.formatted_date }}
-                                    </span>
-                                    <span class="font-semibold text-black newspaper-headline text-base">{{ post.metadata.title }}</span>
-                                </a>
-                            </li>
-                            {% endfor %}
-                        </ul>
-                        {% else %}
-                        <p class="markdown-body text-xs text-gray-700 newspaper-tight">
-                            Telegraph lines are quiet tonight. Drop the editor a note if you have a scoop worth printing.
-                        </p>
-                        {% endif %}
-                    </div>
-                </div>
+
 
                 <div class="newspaper-ad newspaper-ink-specks">
                     <div class="newspaper-ad-heading">Developer For Hire</div>

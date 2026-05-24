@@ -26,9 +26,7 @@ pub struct PostTemplate {
     pub post: Post,
 }
 
-#[derive(Template)]
-#[template(path = "clicked.html")]
-pub struct ClickedTemplate;
+
 
 #[derive(Deserialize, Debug, Clone)]
 pub struct PostMetadata {
@@ -92,37 +90,8 @@ impl IntoResponse for PostTemplate {
     }
 }
 
-impl IntoResponse for ClickedTemplate {
-    fn into_response(self) -> axum::response::Response {
-        match self.render() {
-            Ok(html) => Html(html).into_response(),
-            Err(err) => (
-                StatusCode::INTERNAL_SERVER_ERROR,
-                format!("Failed to render template. Error: {}", err),
-            )
-                .into_response(),
-        }
-    }
-}
 
-#[derive(Template)]
-#[template(path = "wire.html")]
-pub struct WireTemplate {
-    pub posts: Vec<Post>,
-}
 
-impl IntoResponse for WireTemplate {
-    fn into_response(self) -> axum::response::Response {
-        match self.render() {
-            Ok(html) => Html(html).into_response(),
-            Err(err) => (
-                StatusCode::INTERNAL_SERVER_ERROR,
-                format!("Failed to render template. Error: {}", err),
-            )
-                .into_response(),
-        }
-    }
-}
 
 pub async fn index(axum::extract::State(state): axum::extract::State<AppState>) -> impl IntoResponse {
     let feed_posts = state.posts.iter().filter(|p| p.slug != "about").cloned().collect();
@@ -141,28 +110,7 @@ pub async fn post_detail(
     }
 }
 
-pub async fn wire_posts(axum::extract::State(state): axum::extract::State<AppState>) -> impl IntoResponse {
-    let feed_posts = state.posts.iter().filter(|p| p.slug != "about").cloned().collect();
-    WireTemplate {
-        posts: feed_posts,
-    }
-}
 
-pub async fn clicked() -> impl IntoResponse {
-    ClickedTemplate
-}
-
-pub async fn reset() -> impl IntoResponse {
-    Html(
-        r##"
-        <div id="dynamic-content">
-            <button hx-get="/clicked" hx-target="#dynamic-content" hx-swap="outerHTML">
-                Experience the Speed
-            </button>
-        </div>
-    "##,
-    )
-}
 
 pub async fn about(axum::extract::State(state): axum::extract::State<AppState>) -> impl IntoResponse {
     match state.posts.iter().find(|p| p.slug == "about") {
@@ -234,9 +182,6 @@ pub fn app() -> Router {
         .route("/sitemap.xml", get(sitemap))
         .route("/debug-slugs", get(debug_slugs))
         .route("/post/{slug}", get(post_detail))
-        .route("/api/wire-posts", get(wire_posts))
-        .route("/clicked", get(clicked))
-        .route("/reset", get(reset))
         .with_state(state)
         .layer(tower_http::compression::CompressionLayer::new())
 }
