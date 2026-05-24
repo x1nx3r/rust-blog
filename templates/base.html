@@ -13,8 +13,8 @@
     <!-- Styles & Fonts -->
     <link rel="preload" href="/assets/fonts/google-fonts.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="/assets/fonts/google-fonts.css"></noscript>
-    <link rel="stylesheet" href="/assets/css/newspaper.css"/>
-    <link rel="stylesheet" href="/assets/output.css"/>
+    <style>{% include "newspaper.css" %}</style>
+    <style>{% include "output.css" %}</style>
 </head>
 <body class="antialiased min-h-screen bg-[#f6f1e7] text-black">
     {% block content %}{% endblock %}

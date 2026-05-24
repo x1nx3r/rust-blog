@@ -1,8 +1,6 @@
 use crate::{Post, PostMetadata};
 use pulldown_cmark::{html, Event, Tag, TagEnd, CodeBlockKind, Options, Parser};
 use rust_embed::RustEmbed;
-use serde::Deserialize;
-use std::fs;
 use yaml_front_matter::YamlFrontMatter;
 use syntect::parsing::SyntaxSet;
 use syntect::html::ClassedHTMLGenerator;
@@ -56,7 +54,7 @@ pub fn load_posts() -> Vec<Post> {
                             let syntax = ss.find_syntax_by_token(&current_lang).unwrap_or_else(|| ss.find_syntax_plain_text());
                             let mut html_generator = ClassedHTMLGenerator::new_with_class_style(syntax, &ss, syntect::html::ClassStyle::Spaced);
                             for line in LinesWithEndings::from(&current_code) {
-                                html_generator.parse_html_for_line_which_includes_newline(line);
+                                let _ = html_generator.parse_html_for_line_which_includes_newline(line);
                             }
                             let highlighted = html_generator.finalize();
                             let block = format!("<pre><code class=\"language-{}\">{}</code></pre>", current_lang, highlighted);
