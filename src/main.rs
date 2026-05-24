@@ -5,6 +5,6 @@ use tokio::net::TcpListener;
 async fn main() {
     let app = app();
     let listener = TcpListener::bind("0.0.0.0:3789").await.unwrap();
-    println!("Listening on http://localhost:3000");
+    println!("Listening on http://localhost:3789");
     axum::serve(listener, app).await.unwrap();
 }

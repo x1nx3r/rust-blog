@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+
+{% block title %}{{ post.metadata.title }} | Mega Nugraha{% endblock %}
+
+{% block content %}
+<div class="min-h-screen newspaper-paper-with-bg newspaper-aged">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-10 space-y-10 newspaper-page-curl">
+        <!-- Newspaper Folio -->
+        <div class="newspaper-folio newspaper-ink-specks">
+            <div class="newspaper-folio-sides">
+                <span class="newspaper-smallcaps">Mega Nugraha Press</span>
+                <span class="newspaper-registration-mark"></span>
+            </div>
+            <span class="newspaper-smallcaps">Special Feature</span>
+            <div class="newspaper-folio-sides">
+                <span class="newspaper-smallcaps">Vol. II</span>
+                <span class="newspaper-smallcaps">Filed {{ post.metadata.date }}</span>
+            </div>
+        </div>
+
+        <!-- Header -->
+        <header class="w-full text-center newspaper-ink-specks">
+            <div class="text-sm uppercase tracking-wider text-gray-600 newspaper-faded mb-2">
+                Not So-Daily Bulletin &bull; Established 2024 &bull; Independent Developer Chronicle
+            </div>
+            <div class="flex flex-col items-center space-y-4">
+                <h1 class="text-3xl sm:text-4xl md:text-7xl font-bold text-black newspaper-masthead newspaper-vintage-text manufacturing-consent-regular">
+                    A Wandering Mind's Journal
+                </h1>
+                <p class="text-sm sm:text-base md:text-lg text-gray-700 max-w-3xl newspaper-tight">
+                    Dispatches from my not-so-latest experiments, exploits, and the occasional wanders to the unkown thats successful enough to be written down.
+                </p>
+                <nav class="flex flex-wrap items-center justify-center gap-3 sm:gap-5 text-xs sm:text-sm uppercase tracking-[0.35em] newspaper-smallcaps text-gray-700">
+                    <span class="flex items-center gap-3">
+                        <a href="/" class="hover:text-black transition-colors">Front Page</a>
+                        <span class="text-gray-400" aria-hidden="true">&bull;</span>
+                    </span>
+                    <span class="flex items-center gap-3">
+                        <a href="/about" class="hover:text-black transition-colors">About the Editor</a>
+                        <span class="text-gray-400" aria-hidden="true">&bull;</span>
+                    </span>
+                    <span class="flex items-center gap-3">
+                        <a href="https://github.com/x1nx3r" target="_blank" rel="noopener noreferrer" class="hover:text-black transition-colors">GitHub Bureau</a>
+                        <span class="text-gray-400" aria-hidden="true">&bull;</span>
+                    </span>
+                    <span class="flex items-center gap-3">
+                        <a href="mailto:monmega110@gmail.com" target="_blank" rel="noopener noreferrer" class="hover:text-black transition-colors">Send a Mail</a>
+                    </span>
+                </nav>
+            </div>
+            <div class="newspaper-masthead-border mt-6"></div>
+        </header>
+
+        <!-- Breadcrumbs -->
+        <nav class="newspaper-text text-xs uppercase tracking-widest text-gray-600 newspaper-smallcaps newspaper-ink-specks mb-8" aria-label="Breadcrumb">
+            <ol class="flex flex-wrap items-center gap-2">
+                <li><a href="/" class="hover:text-black hover:underline transition-all">Home</a></li>
+                <li><span class="text-gray-400">/</span></li>
+                <li><a href="/#posts" class="hover:text-black hover:underline transition-all">Posts</a></li>
+                <li><span class="text-gray-400">/</span></li>
+                <li class="text-black font-semibold">{{ post.metadata.title }}</li>
+            </ol>
+        </nav>
+
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-10">
+            <main class="lg:col-span-3 newspaper-text newspaper-vintage-text">
+                <article class="pr-0 lg:pr-8 newspaper-slight-tilt newspaper-ink-specks" style="border-right: 1px solid rgba(107, 107, 107, 0.3)">
+                    <div class="flex items-center gap-4">
+                        <a href="/" class="inline-flex items-center gap-2 text-[0.65rem] uppercase tracking-[0.3em] text-gray-600 newspaper-smallcaps hover:text-black transition-colors mb-2">
+                            <span aria-hidden="true">←</span>
+                            Return to newsroom archive
+                        </a>
+                        <div class="flex-1"></div>
+                        <time class="flex items-center text-[1rem] uppercase tracking-[0.35em] text-gray-600 newspaper-smallcaps mb-2">
+                            {{ post.metadata.date }}
+                        </time>
+                        <span class="newspaper-section-label">Feature Report</span>
+                    </div>
+                    <h1 class="text-4xl sm:text-5xl font-bold text-black leading-tight newspaper-headline newspaper-vintage-text newspaper-text mb-4">
+                        {{ post.metadata.title }}
+                    </h1>
+                    <div class="text-sm text-gray-600 newspaper-smallcaps mb-5 newspaper-text">
+                        By <span class="newspaper-ink-underline">{{ post.metadata.author }}</span> &bull; Staff Correspondent
+                    </div>
+                    <div class="newspaper-separator mb-6"></div>
+                    <div class="markdown-body columns-1 md:columns-2 gap-8 text-justify leading-relaxed newspaper-text newspaper-vintage-text newspaper-columns">
+                        {{ post.content|safe }}
+                    </div>
+                </article>
+            </main>
+            <aside class="space-y-6 newspaper-text">
+                <!-- SidebarBox equivalent -->
+                <aside class="space-y-8 text-sm newspaper-text newspaper-vintage-text">
+                    <section class="newspaper-ink-specks">
+                        <span class="newspaper-section-label">My Socials</span>
+                        <ul class="space-y-3">
+                            <li class="flex items-center justify-between border-b border-dashed border-gray-300 pb-2 last:border-none">
+                                <a href="https://github.com/x1nx3r" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 hover:text-black transition-colors newspaper-smallcaps tracking-[0.3em] text-gray-700 newspaper-text">
+                                    GitHub
+                                </a>
+                                <a href="https://github.com/x1nx3r" target="_blank" rel="noopener noreferrer" class="text-[0.65rem] uppercase tracking-[0.3em] text-gray-500 newspaper-smallcaps hover:text-black transition-colors">
+                                    Open
+                                </a>
+                            </li>
+                            <li class="flex items-center justify-between border-b border-dashed border-gray-300 pb-2 last:border-none">
+                                <a href="https://www.linkedin.com/in/mega-nugraha/" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 hover:text-black transition-colors newspaper-smallcaps tracking-[0.3em] text-gray-700 newspaper-text">
+                                    LinkedIn
+                                </a>
+                                <a href="https://www.linkedin.com/in/mega-nugraha/" target="_blank" rel="noopener noreferrer" class="text-[0.65rem] uppercase tracking-[0.3em] text-gray-500 newspaper-smallcaps hover:text-black transition-colors">
+                                    Open
+                                </a>
+                            </li>
+                            <li class="flex items-center justify-between border-b border-dashed border-gray-300 pb-2 last:border-none">
+                                <a href="mailto:monmega110@gmail.com" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 hover:text-black transition-colors newspaper-smallcaps tracking-[0.3em] text-gray-700 newspaper-text">
+                                    Email
+                                </a>
+                                <a href="mailto:monmega110@gmail.com" target="_blank" rel="noopener noreferrer" class="text-[0.65rem] uppercase tracking-[0.3em] text-gray-500 newspaper-smallcaps hover:text-black transition-colors">
+                                    Open
+                                </a>
+                            </li>
+                        </ul>
+                    </section>
+                    <section class="newspaper-ink-specks">
+                        <span class="newspaper-section-label">Tech Stacks</span>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div class="flex items-center gap-3 px-1 py-2 text-gray-700 newspaper-text newspaper-vintage-text"><span class="text-xs uppercase tracking-[0.2em] newspaper-smallcaps">Go</span></div>
+                            <div class="flex items-center gap-3 px-1 py-2 text-gray-700 newspaper-text newspaper-vintage-text"><span class="text-xs uppercase tracking-[0.2em] newspaper-smallcaps">Rust</span></div>
+                            <div class="flex items-center gap-3 px-1 py-2 text-gray-700 newspaper-text newspaper-vintage-text"><span class="text-xs uppercase tracking-[0.2em] newspaper-smallcaps">HTMX</span></div>
+                            <div class="flex items-center gap-3 px-1 py-2 text-gray-700 newspaper-text newspaper-vintage-text"><span class="text-xs uppercase tracking-[0.2em] newspaper-smallcaps">React</span></div>
+                            <div class="flex items-center gap-3 px-1 py-2 text-gray-700 newspaper-text newspaper-vintage-text"><span class="text-xs uppercase tracking-[0.2em] newspaper-smallcaps">Node.js</span></div>
+                            <div class="flex items-center gap-3 px-1 py-2 text-gray-700 newspaper-text newspaper-vintage-text"><span class="text-xs uppercase tracking-[0.2em] newspaper-smallcaps">TypeScript</span></div>
+                        </div>
+                    </section>
+                </aside>
+            </aside>
+        </div>
+    </div>
+</div>
+{% endblock %}
