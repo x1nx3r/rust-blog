@@ -8,6 +8,8 @@ TIMESTAMP=$(date +%Y%m%d%H%M%S)
 RELEASE_DIR="$APP_ROOT/releases/$TIMESTAMP"
 
 echo "-> 1. Compiling CSS and Rust binary locally (Offloading CPU/RAM from the potato)..."
+# Force rust-embed to re-embed contents/ — it misses newly added .md files otherwise
+touch src/posts.rs
 # Build Tailwind
 make css-prod
 # Build the release binary. We build natively assuming local architecture matches the server (Linux x86_64).
