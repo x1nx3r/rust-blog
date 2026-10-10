@@ -4,7 +4,7 @@
 <div class="min-h-screen newspaper-paper-with-bg newspaper-aged">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 py-10 space-y-10 newspaper-page-curl">
         <!-- Newspaper Folio -->
-        <div class="newspaper-folio newspaper-ink-specks">
+        <div class="newspaper-folio newspaper-ink-specks" data-press-wire>
             <div class="newspaper-folio-sides">
                 <span class="newspaper-smallcaps">The Subpar Dev Press</span>
                 <span class="newspaper-registration-mark"></span>
@@ -19,17 +19,15 @@
         <section class="text-center newspaper-slight-tilt newspaper-ink-specks space-y-2">
             <!-- Header -->
             <header class="w-full text-center newspaper-ink-specks">
-                <div class="text-sm uppercase tracking-wider text-gray-600 newspaper-faded mb-2">
+                <div class="text-sm uppercase tracking-wider text-gray-600 newspaper-faded mb-2" data-press-wire>
                     Not So-Daily Bulletin &bull; Established 2024 &bull; Independent Developer Chronicle
                 </div>
                 <div class="flex flex-col items-center space-y-4">
-                    <h1 class="text-3xl sm:text-4xl md:text-7xl font-bold text-black newspaper-masthead newspaper-vintage-text manufacturing-consent-regular">
-                        A Wandering Mind's Journal
-                    </h1>
-                    <p class="text-sm sm:text-base md:text-lg text-gray-700 max-w-3xl newspaper-tight">
+                    <h1 class="text-3xl sm:text-4xl md:text-7xl font-bold text-black newspaper-masthead newspaper-vintage-text manufacturing-consent-regular newspaper-vt-masthead" data-newspaper-scramble>{{ masthead|safe }}</h1>
+                    <p class="text-sm sm:text-base md:text-lg text-gray-700 max-w-3xl newspaper-tight" data-press-wire>
                         Dispatches from my not-so-latest experiments, exploits, and the occasional wanders to the unkown thats successful enough to be written down.
                     </p>
-                    <nav class="flex flex-wrap items-center justify-center gap-3 sm:gap-5 text-xs sm:text-sm uppercase tracking-[0.35em] newspaper-smallcaps text-gray-700">
+                    <nav class="flex flex-wrap items-center justify-center gap-3 sm:gap-5 text-xs sm:text-sm uppercase tracking-[0.35em] newspaper-smallcaps text-gray-700" data-press-wire>
                         <span class="flex items-center gap-3">
                             <a href="/" class="hover:text-black transition-colors">Front Page</a>
                             <span class="text-gray-400" aria-hidden="true">&bull;</span>
@@ -47,7 +45,7 @@
                         </span>
                     </nav>
                 </div>
-                <div class="newspaper-masthead-border mt-6"></div>
+                <div class="newspaper-masthead-border mt-6" data-press-wire></div>
             </header>
         </section>
 
@@ -58,20 +56,18 @@
                 {% for i in 1..posts.len() %}
                 {% if i < 4 %}
                 {% let post = posts[i] %}
-                <article class="space-y-2 newspaper-text newspaper-vintage-text pr-0 sm:pr-6 lg:pr-6" {% if i < 3 %}style="border-right: 1px solid rgba(107, 107, 107, 0.3)"{% endif %}>
+                <article class="space-y-2 newspaper-text newspaper-vintage-text pr-0 sm:pr-6 lg:pr-6" data-press-wire {% if i < 3 %}style="border-right: 1px solid rgba(107, 107, 107, 0.3)"{% endif %}>
                     <time class="block text-[0.6rem] uppercase tracking-[0.3em] text-gray-600 newspaper-smallcaps mb-2">
                         {{ post.metadata.formatted_date }}
                     </time>
                     <a href="/post/{{ post.slug }}" class="group block">
-                        <h2 class="text-lg font-semibold text-black newspaper-headline newspaper-vintage-text newspaper-text leading-snug group-hover:underline">
-                            {{ post.metadata.title }}
-                        </h2>
+                        <h2 class="text-lg font-semibold text-black newspaper-headline newspaper-vintage-text newspaper-text leading-snug group-hover:underline" data-word-scatter>{{ post.metadata.title }}</h2>
                     </a>
                     <p class="text-xs sm:text-sm text-gray-700 newspaper-tight newspaper-text">
                         {{ post.metadata.summary }}
                     </p>
                     <a href="/post/{{ post.slug }}" class="inline-block mt-3 text-[0.6rem] uppercase tracking-[0.3em] text-gray-700 newspaper-ink-underline hover:text-black transition-colors">
-                        Read article →
+                        Read article <span class="newspaper-read-more" aria-hidden="true">→</span>
                     </a>
                 </article>
                 {% endif %}
@@ -86,21 +82,19 @@
                 {% if posts.len() > 0 %}
                 {% let post = posts[0] %}
                 <article class="pr-0 lg:pr-8 newspaper-slight-tilt newspaper-ink-specks" style="border-right: 1px solid rgba(107, 107, 107, 0.3)">
-                    <div class="flex items-center justify-center gap-4">
+                    <div class="flex items-center justify-center gap-4" data-press-wire>
                         <span class="newspaper-section-label">Late Final Edition</span>
                         <span class="flex-1"></span>
                         <time class="flex items-center text-[1rem] uppercase tracking-[0.35em] text-gray-600 newspaper-smallcaps pb-2">
                             {{ post.metadata.formatted_date }}
                         </time>
                     </div>
-                    <a href="/post/{{ post.slug }}" class="group block mt-3">
-                        <h2 class="text-4xl sm:text-5xl font-bold text-black leading-tight newspaper-headline newspaper-vintage-text group-hover:underline">
-                            {{ post.metadata.title }}
-                        </h2>
+                    <a href="/post/{{ post.slug }}" class="group block mt-3" data-press-wire>
+                        <h2 class="text-4xl sm:text-5xl font-bold text-black leading-tight newspaper-headline newspaper-vintage-text group-hover:underline newspaper-vt-story" data-newspaper-scramble>{{ featured_scrambled|safe }}</h2>
                     </a>
-                    <p class="newspaper-deck newspaper-tight mt-4">{{ post.metadata.summary }}</p>
-                    <div class="newspaper-separator mt-5"></div>
-                    <div class="markdown-body columns-1 md:columns-2 gap-8 text-justify leading-relaxed newspaper-text newspaper-vintage-text newspaper-columns newspaper-tight">
+                    <p class="newspaper-deck newspaper-tight mt-4" data-press-wire data-word-scatter>{{ post.metadata.summary }}</p>
+                    <div class="newspaper-separator mt-5" data-press-wire></div>
+                    <div class="markdown-body columns-1 md:columns-2 gap-8 text-justify leading-relaxed newspaper-text newspaper-vintage-text newspaper-columns newspaper-tight" data-press-wire>
                         {{ post.content|safe }}
                     </div>
                 </article>
@@ -128,7 +122,7 @@
             <aside class="lg:col-span-1 space-y-6">
                 <!-- SidebarBox equivalent -->
                 <aside class="space-y-8 text-sm newspaper-text newspaper-vintage-text">
-                    <section class="newspaper-ink-specks">
+                    <section class="newspaper-ink-specks" data-press-wire>
                         <span class="newspaper-section-label">My Socials</span>
                         <ul class="space-y-3">
                             <li class="flex items-center justify-between border-b border-dashed border-gray-300 pb-2 last:border-none">
@@ -157,7 +151,7 @@
                             </li>
                         </ul>
                     </section>
-                    <section class="newspaper-ink-specks">
+                    <section class="newspaper-ink-specks" data-press-wire>
                         <span class="newspaper-section-label">Tech Stacks</span>
                         <div class="grid grid-cols-2 gap-3">
                             <div class="flex items-center gap-3 px-1 py-2 text-gray-700 newspaper-text newspaper-vintage-text"><span class="text-xs uppercase tracking-[0.2em] newspaper-smallcaps">Go</span></div>
@@ -172,7 +166,7 @@
 
 
 
-                <div class="newspaper-ad newspaper-ink-specks">
+                <div class="newspaper-ad newspaper-ink-specks newspaper-scroll-fade">
                     <div class="newspaper-ad-heading">Developer For Hire</div>
                     <div class="newspaper-ad-divider"></div>
                     <p class="text-xs uppercase tracking-widest text-gray-700 newspaper-smallcaps newspaper-text">
@@ -190,7 +184,7 @@
 
                 <!-- Highlight cards (posts 4-9) -->
                 {% if posts.len() > 4 %}
-                <div class="newspaper-ink-specks newspaper-text">
+                <div class="newspaper-ink-specks newspaper-text newspaper-scroll-fade">
                     <div class="newspaper-separator mb-4"></div>
                     <span class="newspaper-section-label">Also In This Edition</span>
                     <div class="flex flex-col gap-6 mt-4">
@@ -210,7 +204,7 @@
                                 {{ post.metadata.summary }}
                             </p>
                             <a href="/post/{{ post.slug }}" class="inline-block mt-2 text-[0.6rem] uppercase tracking-[0.3em] text-gray-700 newspaper-ink-underline hover:text-black transition-colors">
-                                Read article →
+                                Read article <span class="newspaper-read-more" aria-hidden="true">→</span>
                             </a>
                         </article>
                         {% endif %}
@@ -223,7 +217,17 @@
 
 
 
-        <footer class="text-center pt-4 text-xs text-gray-600 newspaper-faded newspaper-ink-specks">
+        {% if posts.len() > 10 %}
+        <div id="older-editions" class="max-w-3xl mx-auto newspaper-ink-specks newspaper-text">
+            <div class="text-center pt-4">
+                <button class="newspaper-fetch-btn newspaper-scroll-fade" hx-get="/editions/older?after=10" hx-target="#older-editions" hx-swap="outerHTML">
+                    Fetch Earlier Editions
+                </button>
+            </div>
+        </div>
+        {% endif %}
+
+        <footer class="text-center pt-4 text-xs text-gray-600 newspaper-faded newspaper-ink-specks newspaper-scroll-fade">
             <div class="newspaper-thin-separator mb-4"></div>
             <div class="flex flex-col items-center gap-2">
                 <div class="newspaper-folio-sides">

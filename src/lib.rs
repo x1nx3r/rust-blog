@@ -1,4 +1,5 @@
 pub mod posts;
+pub mod scramble;
 
 use askama::Template;
 use axum::{
@@ -18,12 +19,41 @@ pub struct AppState {
 #[template(path = "index.html")]
 pub struct IndexTemplate {
     pub posts: Vec<Post>,
+    pub masthead: String,
+    pub featured_scrambled: String,
 }
 
 #[derive(Template)]
 #[template(path = "post.html")]
 pub struct PostTemplate {
     pub post: Post,
+    pub masthead: String,
+    pub title_scrambled: String,
+}
+
+/// Number of older articles served per "Fetch Earlier Editions" request.
+const EDITIONS_PAGE: usize = 6;
+
+#[derive(Template)]
+#[template(path = "editions.html")]
+pub struct OlderEditionsTemplate {
+    pub posts: Vec<Post>,
+    /// Index of the first article not yet shown; used to build the next request.
+    pub next_after: usize,
+    pub remaining: bool,
+}
+
+impl IntoResponse for OlderEditionsTemplate {
+    fn into_response(self) -> axum::response::Response {
+        match self.render() {
+            Ok(html) => Html(html).into_response(),
+            Err(err) => (
+                StatusCode::INTERNAL_SERVER_ERROR,
+                format!("Failed to render template. Error: {}", err),
+            )
+                .into_response(),
+        }
+    }
 }
 
 
@@ -94,9 +124,16 @@ impl IntoResponse for PostTemplate {
 
 
 pub async fn index(axum::extract::State(state): axum::extract::State<AppState>) -> impl IntoResponse {
-    let feed_posts = state.posts.iter().filter(|p| p.slug != "about").cloned().collect();
+    let feed_posts: Vec<Post> = state.posts.iter().filter(|p| p.slug != "about").cloned().collect();
+    let featured = feed_posts.first();
     IndexTemplate {
-        posts: feed_posts,
+        posts: feed_posts.clone(),
+        masthead: scramble::masthead_html(),
+        // Letter-level: reserved for the page's face cards. Lower
+        // headline text is word-scattered client-side for performance.
+        featured_scrambled: featured
+            .map(|p| scramble::headline_html(&p.metadata.title))
+            .unwrap_or_default(),
     }
 }
 
@@ -105,16 +142,55 @@ pub async fn post_detail(
     axum::extract::Path(slug): axum::extract::Path<String>,
 ) -> impl IntoResponse {
     match state.posts.iter().find(|p| p.slug == slug) {
-        Some(post) => PostTemplate { post: post.clone() }.into_response(),
+        Some(post) => PostTemplate {
+            post: post.clone(),
+            masthead: scramble::masthead_html(),
+            title_scrambled: scramble::headline_html(&post.metadata.title),
+        }
+        .into_response(),
         None => (StatusCode::NOT_FOUND, "Post not found").into_response(),
     }
 }
 
 
 
+#[derive(Deserialize, Debug, Clone)]
+pub struct EditionsQuery {
+    /// Index after which to serve older editions (articles the page has not rendered yet).
+    #[serde(default)]
+    pub after: usize,
+}
+
+pub async fn older_editions(
+    axum::extract::State(state): axum::extract::State<AppState>,
+    axum::extract::Query(query): axum::extract::Query<EditionsQuery>,
+) -> impl IntoResponse {
+    let feed: Vec<Post> = state
+        .posts
+        .iter()
+        .filter(|p| p.slug != "about")
+        .cloned()
+        .collect();
+    let after = query.after.min(feed.len());
+    let end = (after + EDITIONS_PAGE).min(feed.len());
+    let remaining = end < feed.len();
+
+    OlderEditionsTemplate {
+        posts: feed[after..end].to_vec(),
+        next_after: end,
+        remaining,
+    }
+    .into_response()
+}
+
 pub async fn about(axum::extract::State(state): axum::extract::State<AppState>) -> impl IntoResponse {
     match state.posts.iter().find(|p| p.slug == "about") {
-        Some(post) => PostTemplate { post: post.clone() }.into_response(),
+        Some(post) => PostTemplate {
+            post: post.clone(),
+            masthead: scramble::masthead_html(),
+            title_scrambled: scramble::headline_html(&post.metadata.title),
+        }
+        .into_response(),
         None => (StatusCode::NOT_FOUND, "About page not found").into_response(),
     }
 }
@@ -179,6 +255,7 @@ pub fn app() -> Router {
         .route("/", get(index))
         .route("/robots.txt", get(robots_txt))
         .route("/about", get(about))
+        .route("/editions/older", get(older_editions))
         .route("/sitemap.xml", get(sitemap))
         .route("/debug-slugs", get(debug_slugs))
         .route("/post/{slug}", get(post_detail))

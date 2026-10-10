@@ -1,0 +1,31 @@
+<div id="older-editions" class="max-w-3xl mx-auto space-y-10 newspaper-ink-specks newspaper-text newspaper-scrolled-in">
+    {% for post in posts %}
+    {% let stagger = loop.index %}
+    {% let delay = (stagger - 1) * 60 %}
+    <article class="space-y-2 newspaper-text newspaper-vintage-text border-b border-dashed border-gray-300 pb-6 newspaper-scrolled-in" style="animation-delay: {{ delay }}ms">
+        <time class="block text-[0.6rem] uppercase tracking-[0.3em] text-gray-600 newspaper-smallcaps mb-2">
+            {{ post.metadata.formatted_date }}
+        </time>
+        <a href="/post/{{ post.slug }}" class="group block">
+            <h2 class="text-xl font-semibold text-black newspaper-headline newspaper-vintage-text newspaper-text leading-snug group-hover:underline">
+                {{ post.metadata.title }}
+            </h2>
+        </a>
+        <p class="text-xs sm:text-sm text-gray-700 newspaper-tight newspaper-text line-clamp-3">
+            {{ post.metadata.summary }}
+        </p>
+        <a href="/post/{{ post.slug }}" class="inline-block mt-2 text-[0.6rem] uppercase tracking-[0.3em] text-gray-700 newspaper-ink-underline hover:text-black transition-colors">
+            Read article <span class="newspaper-read-more" aria-hidden="true">→</span>
+        </a>
+    </article>
+    {% endfor %}
+    <div class="text-center pt-2">
+        {% if remaining %}
+        <button class="newspaper-fetch-btn" hx-get="/editions/older?after={{ next_after }}" hx-target="#older-editions" hx-swap="outerHTML">
+            Fetch Earlier Editions
+        </button>
+        {% else %}
+        <span class="newspaper-smallcaps text-gray-600 tracking-[0.3em]">End of Archive &mdash; The Presses Rest</span>
+        {% endif %}
+    </div>
+</div>

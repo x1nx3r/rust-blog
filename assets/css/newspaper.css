@@ -1185,3 +1185,252 @@ body {
     align-items: center;
     gap: 0.5rem;
 }
+
+/* Word-stage scatter pieces (topline titles, deck, byline) */
+.np-wd {
+    display: inline-block;
+}
+
+/* --- Masthead scramble typesetting --- */
+
+/* inline-block keeps each glyph's jitter from rippling reflow
+   through the rest of the line; word spans preserve wrapping */
+.np-sc {
+    display: inline-block;
+    text-align: center;
+}
+
+/* Blocks wired for the press cascade start hidden, revealed by GSAP.
+   The np-press class is added by an inline script so it never applies
+   without JS or under reduced motion. */
+html.np-press [data-press-wire] {
+    opacity: 0;
+}
+
+/* Standalone letter containers (masthead, post title) also start
+   hidden - the press conductor reveals them at their own slot. */
+html.np-press [data-newspaper-scramble] {
+    opacity: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    /* A letter, once revealed, settles like fresh type pressed to paper.
+       Opacity-only on purpose: blur()/filter repaints are the single most
+       expensive per-letter property on the GPU. */
+    @keyframes np-letter-press {
+        0% {
+            opacity: 0.45;
+        }
+        100% {
+            opacity: 1;
+        }
+    }
+
+    .np-s-on {
+        animation: np-letter-press 0.25s ease-out both;
+    }
+}
+
+/* ============================================================
+   MOTION LAYER — gentle print-shop animation
+   Everything here is guarded by prefers-reduced-motion and
+   degrades to the static newspaper below it.
+   ============================================================ */
+
+.newspaper-fetch-btn {
+    font-family: "EB Garamond", "Times New Roman", serif;
+    font-size: 0.68rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    padding: 0.8rem 1.6rem;
+    border: 1px solid rgba(26, 26, 26, 0.5);
+    background: transparent;
+    color: rgba(26, 26, 26, 0.85);
+    cursor: pointer;
+    transition:
+        background-color 0.3s ease,
+        color 0.3s ease,
+        box-shadow 0.3s ease,
+        transform 0.2s ease;
+}
+
+.newspaper-fetch-btn:hover {
+    background: rgba(26, 26, 26, 0.88);
+    color: #faf6f0;
+    box-shadow:
+        2px 2px 0 rgba(26, 26, 26, 0.25),
+        -1px -1px 0 rgba(255, 255, 255, 0.55);
+}
+
+.newspaper-fetch-btn:active {
+    transform: translateY(1px);
+}
+
+.newspaper-fetch-btn.htmx-request {
+    opacity: 0.55;
+    pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    /* --- Tier 2: fluid page-to-page morphing (View Transitions) --- */
+    @view-transition {
+        navigation: auto;
+    }
+
+    ::view-transition-group(*) {
+        animation-duration: 0.35s;
+        animation-timing-function: cubic-bezier(0.2, 0.7, 0.2, 1);
+    }
+
+    /* Shared elements travel between pages instead of cross-fading */
+    .newspaper-vt-masthead {
+        view-transition-name: newspaper-masthead;
+        view-transition-class: press-furniture;
+    }
+
+    .newspaper-vt-story {
+        view-transition-name: newspaper-story;
+    }
+
+    /* --- Keyframes --- */
+
+    /* Content settles onto the page like a sheet being laid down */
+    @keyframes newspaper-ink-settle {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Masthead: ink pressed onto paper, blur resolving to sharp */
+    @keyframes newspaper-stamp {
+        0% {
+            opacity: 0;
+            transform: scale(1.06);
+            filter: blur(4px);
+        }
+        60% {
+            opacity: 1;
+            filter: blur(0.5px);
+        }
+        100% {
+            transform: scale(1);
+            filter: blur(0);
+        }
+    }
+
+    /* Rules and borders draw themselves from the left */
+    @keyframes newspaper-draw-x {
+        from {
+            transform: scaleX(0);
+        }
+        to {
+            transform: scaleX(1);
+        }
+    }
+
+    @keyframes newspaper-fade {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+
+    /* --- Entrance orchestration --- */
+
+    .newspaper-stamp {
+        animation: newspaper-stamp 0.65s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    }
+
+    .newspaper-rise {
+        animation: newspaper-ink-settle 0.55s cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
+    }
+
+    /* backwards fill so the element's own static transform (e.g. the
+       faint rotation on separators) survives after the draw ends */
+    .newspaper-draw {
+        animation: newspaper-draw-x 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
+        transform-origin: left center;
+    }
+
+    .newspaper-fade {
+        animation: newspaper-fade 0.6s ease-out backwards;
+    }
+
+    /* For htmx-swapped fragments: plays on DOM insertion. Flight time
+       matches the block rewind (0.85s). */
+    .newspaper-scrolled-in {
+        animation: newspaper-ink-settle 0.85s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    }
+
+    /* Stagger utilities — stride matches the press wave (60ms/slot,
+       see SLOTS in newspaper-press.js) */
+    .newspaper-d1 { animation-delay: 60ms; }
+    .newspaper-d2 { animation-delay: 120ms; }
+    .newspaper-d3 { animation-delay: 180ms; }
+    .newspaper-d4 { animation-delay: 240ms; }
+    .newspaper-d5 { animation-delay: 300ms; }
+    .newspaper-d6 { animation-delay: 360ms; }
+    .newspaper-d7 { animation-delay: 420ms; }
+    .newspaper-d8 { animation-delay: 480ms; }
+
+    /* --- Tier 3: micro-interactions --- */
+
+    /* Ink bleed: headlines soften and spread like wet ink under a hover */
+    .newspaper-headline {
+        transition:
+            text-shadow 0.35s ease,
+            letter-spacing 0.35s ease;
+    }
+
+    .group:hover .newspaper-headline {
+        text-shadow:
+            0.05em 0.05em 0.12em rgba(26, 26, 26, 0.22),
+            -0.01em -0.01em 0.02em rgba(26, 26, 26, 0.1);
+        letter-spacing: 0.03em;
+    }
+
+    /* Tilted sheets settle flat when nudged by the cursor */
+    .newspaper-slight-tilt {
+        transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
+    }
+
+    .newspaper-slight-tilt:hover {
+        transform: rotate(0deg) translateY(-2px);
+    }
+
+    /* Registration mark takes a slow quarter-turn when the folio is browsed */
+    .newspaper-registration-mark {
+        transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+    }
+
+    .newspaper-folio:hover .newspaper-registration-mark {
+        transform: rotate(180deg);
+    }
+
+    /* "Read article" arrow inches forward */
+    .newspaper-read-more {
+        display: inline-block;
+        transition: transform 0.25s ease;
+    }
+
+    a:hover > .newspaper-read-more,
+    a:hover .newspaper-read-more {
+        transform: translateX(3px);
+    }
+
+    /* --- Tier 4: scroll choreography (progressive enhancement) --- */
+    @supports (animation-timeline: view()) {
+        .newspaper-scroll-fade {
+            animation: newspaper-ink-settle both;
+            animation-timeline: view();
+            animation-range: entry 5% entry 45%;
+        }
+    }
+}
